@@ -2,13 +2,17 @@
 
 
 Name: Vinayak Chandra Srivastava
+
 Roll No: 241166
 
 Flags Found:
 
 Blog 1:
+
 PClub{idk_how_this_got_typed}
+
 Blog 2:
+
 PClub{Easy LFI}
 
 PClub{4lw4ys_cl05e_y0ur_fil3s}
