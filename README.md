@@ -43,7 +43,7 @@ On some searching, I found that I can run a bash script using different plugins 
 
 
 
-`#!/bin/bash
+#!/bin/bash
 
 BASE_URL="http://13.126.50.182:3000/public/plugins"
 PLUGINS=(
