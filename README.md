@@ -1,4 +1,4 @@
-#PClub_Secretary_Recruitment_Operation_Shadow_Trace
+# PClub_Secretary_Recruitment_Operation_Shadow_Trace
 
 
 Name: Vinayak Chandra Srivastava
@@ -31,8 +31,8 @@ Note for Github: I had documented my journey of finding flags on a Google Docume
 
 From Blog 2:
 
-#FLAG 1
-
+# FLAG 1
+ 
 The blog contains a Grafana environment hosted on 13.126.50.182:3000
 
 According to the hint, I first searched for the vulnerability of Grafana.
@@ -104,7 +104,7 @@ Typing this on the terminal gave me the following message, which also includes t
 PClub{Easy LFI}, now onto the next one! Next challenge - 13.235.21.137:4657 and 13.235.21.137:4729
 
 
-#FLAG 2
+# FLAG 2
 
 Now I tried opening both these links but they didn’t open in the browser. Hence I ran curl commands to open them on terminal..
 I got:
@@ -2150,7 +2150,7 @@ Nice job though! Here's the next challenge : https://pastebin.com/v9vuHs52
 The 29th September edit also gives a flag:
 TechSprint{I_think_we_have_a_osint_god_among_us!}
 However this doesn’t start with ‘PClub{‘ so it is a flag of some other CTF.
-#FLAG 5
+# FLAG 5
 
 
 Now opening the given pastebin link,
@@ -2745,7 +2745,7 @@ Which also didn’t work.
 
 
 Next I tried  Franklin-Reiter Related Message Attack which also didn’t work:
-#FLAG 6
+# FLAG 6
 
 
 Trying to open the challenge file from https://cybersharing.net/s/327d3991cd34b223
