@@ -2746,7 +2746,8 @@ else:
 Which also didn’t work.
 
 
-Next I tried  Franklin-Reiter Related Message Attack which also didn’t work:
+Next I tried  Franklin-Reiter Related Message Attack which also didn’t work, prompting and running a sagemath code, which also didn’t work.
+
 # FLAG 6
 
 
