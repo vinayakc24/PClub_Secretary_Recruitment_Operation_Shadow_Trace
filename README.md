@@ -178,11 +178,11 @@ On prompting this I got this response, which worked:
 “The error occurs because accessing /proc/self/fd/3 after dropping privileges triggers a permission re-check on the underlying file (/root/flag), which your non-root shell can’t bypass. However, the file descriptor (fd=3) itself retains access to the file opened earlier as root. Here's how to read the flag:
 Use direct file descriptor access instead of /proc paths:
 bash
-./file_chal  # Run the binary to spawn a shell
-cat <&3      # Read from the inherited file descriptor”
+./file_chal  #Run the binary to spawn a shell
+cat <&3      #Read from the inherited file descriptor”
 
-$ ./file_chal  # Run the binary to spawn a shell
-cat <&3      # Read from the inherited file descriptor
+$ ./file_chal  #Run the binary to spawn a shell
+cat <&3      #Read from the inherited file descriptor
 sh: 0: can't access tty; job control turned off
 $ PClub{4lw4ys_cl05e_y0ur_fil3s}
 
@@ -464,12 +464,12 @@ Now Perplexity told me the following:
 Check Parent Process File Descriptors
 The .swp file is owned by root, but the service you connected to might have opened it. Access it via the parent process’s file descriptors:
 
-PPID=$(ps -o ppid= -p $$)  # Get parent PID
-ls -l /proc/$PPID/fd       # List open descriptors
+PPID=$(ps -o ppid= -p $$)  #Get parent PID
+ls -l /proc/$PPID/fd       #List open descriptors
 Hence I tried it and got:
 
-$ PPID=$(ps -o ppid= -p $$)  # Get parent PID
-ls -l /proc/$PPID/fd       # List open descriptors
+$ PPID=$(ps -o ppid= -p $$)  #Get parent PID
+ls -l /proc/$PPID/fd       #List open descriptors
 $ ls: cannot access '3495/fd': No such file or directory
 /proc/:
 total 0
@@ -814,10 +814,10 @@ xxd: .swp: Permission denied
 
 I will now retry the commands in /proc:
 
-# List open file descriptors of the parent process
+#List open file descriptors of the parent process
 ls -l /proc/$PPID/fd
 
-# Read the flag from the correct descriptor (likely 3)
+#Read the flag from the correct descriptor (likely 3)
 cat /proc/$PPID/fd/3
 $ $ $ $ ls: cannot access '3853/fd': No such file or directory
 /proc/:
@@ -1063,12 +1063,12 @@ $ find / -type f -perm -o=r 2>/dev/null | grep -i flag
 
 I then tried opening /tmp/recovered_flag.txt but just got 2 q’s separated by a few lines. Prompting this, Perplexity told me that maybe the recovered file is corrupted and told me to delete it and remake it using vim
 
-# Delete the corrupted file
+#Delete the corrupted file
 rm /tmp/recovered_flag.txt
 
-# Recover the .swp file again (if possible)
+#Recover the .swp file again (if possible)
 vim -r .swp
-# Press 'R' to recover, then save with :wq /tmp/recovered_flag.txt
+#Press 'R' to recover, then save with :wq /tmp/recovered_flag.txt
 
 However, I still got the same file so I think I’m not on the right path.
 
@@ -1124,7 +1124,7 @@ However, no perplexity gave me a python script to run and find the flag in a hid
 import os
 import re
 
-# Search all readable memory regions for the flag pattern
+#Search all readable memory regions for the flag pattern
 flag = None
 with open('/proc/self/maps', 'r') as maps:
     for line in maps:
@@ -1522,7 +1522,7 @@ exec /bin/bash
 
 Running it i got root access:
 
-# # # bash: cannot set terminal process group (177989): Inappropriate ioctl for device
+###bash: cannot set terminal process group (177989): Inappropriate ioctl for device
 bash: no job control in this shell
 root@1d6089cf076a:/chal# 
 
@@ -2635,25 +2635,25 @@ Use Håstad’s Broadcast Attack
 I tried the first on https://sagecell.sagemath.org/ 
 
 
-# SAGEMATH CODE
+#SAGEMATH CODE
 from sage.all import *
 
 
-# Known values
+#Known values
 n = 14396996159484935402263047209515591837894561722637754977347763291309469526016654395830492184143403002427443166570907471043582253894111865750271913633299048451358715658977476227178780148897263675642352138870807635707152157265878868071156485130358955177740064371871540690429629376357175922832896148083749207758979817755416407370097422607094461094843394269367378266138773192483991105300836363325123386715060503986689730021660330714714902229408932007554015453954776067969393448087791858215409782993160037667631348054614116602892854843905177862655435919982681383061296616680660139810652785553456917773787057033714145613047
 c = 13437526472436443794216183194447347160957723113505232847991283306113138220233611623514675486755471564675075931597194667076873792845811434558940860307689650172282955143274192306001577300853176680328261740226949547911987455543505939653845201712932059038893061028957575004645827583641813162371882629998149720108335069599541193348406800042424174365046762703858102407067704226218281373815251886835573326793237064400000951951470185193154003949005186087250209039284390634476270161882475661058798807584719275674224312119320148958373939867137261912594006570054381723440237211976383733448993072751117624257934664093874010364945
 known_part = 0x50436c75627b  # "PClub{" in hex
 padding = 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  # SHA256 of ""
 
 
-# Shift length for unknown part (adjust based on expected flag length)
+#Shift length for unknown part (adjust based on expected flag length)
 unknown_bits = (30 - 6) * 8  # e.g., 30-character flag, 6 known ("PClub{")
 F.<x> = PolynomialRing(Zmod(n), implementation='NTL')
 f = (known_part * (2**unknown_bits) + x + padding)^3 - c
 f = f.monic()
 
 
-# Coppersmith parameters
+#Coppersmith parameters
 beta = 0.5  # Expected root size relative to n
 XX = 2**unknown_bits  # Upper bound for x
 
@@ -2690,27 +2690,27 @@ n = 1439699615948493540226304720951559183789456172263775497734776329130946952601
 c = 13437526472436443794216183194447347160957723113505232847991283306113138220233611623514675486755471564675075931597194667076873792845811434558940860307689650172282955143274192306001577300853176680328261740226949547911987455543505939653845201712932059038893061028957575004645827583641813162371882629998149720108335069599541193348406800042424174365046762703858102407067704226218281373815251886835573326793237064400000951951470185193154003949005186087250209039284390634476270161882475661058798807584719275674224312119320148958373939867137261912594006570054381723440237211976383733448993072751117624257934664093874010364945  # Replace with your ciphertext
 
 
-# Known prefix of the flag (e.g., "PClub{")
+#Known prefix of the flag (e.g., "PClub{")
 known_part = int.from_bytes(b'PClub{', byteorder='big')
 
 
-# SHA256 hash of empty string (precomputed)
+#SHA256 hash of empty string (precomputed)
 padding = 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 
 
-# Estimated flag length (adjust based on CTF hints)
+#Estimated flag length (adjust based on CTF hints)
 flag_length = 30  # e.g., 30 characters
 unknown_bytes = flag_length - len(b'PClub{')  # 24 bytes
 shift = unknown_bytes * 8  # Bits to shift for the unknown part
 
 
-# Coppersmith's Attack
+#Coppersmith's Attack
 P.<x> = PolynomialRing(Zmod(n), implementation='NTL')
 f = (known_part * (2^shift) + x + padding)^3 - c
 f = f.monic()
 
 
-# Find small roots (adjust beta and epsilon if needed)
+#Find small roots (adjust beta and epsilon if needed)
 roots = f.small_roots(X=2^shift, beta=0.3, epsilon=0.05)
 if roots:
     x = roots[0]
