@@ -1,21 +1,17 @@
-# PClub_Secretary_Recruitment_Operation_Shadow_Trace
+#PClub_Secretary_Recruitment_Operation_Shadow_Trace
 
 
 Name: Vinayak Chandra Srivastava
 Roll No: 241166
+
 Flags Found:
 
 Blog 1:
 PClub{idk_how_this_got_typed}
-
-
-
-
 Blog 2:
 PClub{Easy LFI}
 
 PClub{4lw4ys_cl05e_y0ur_fil3s}
-
 
 Order of FInding Flags:
 
@@ -25,11 +21,17 @@ PClub{4lw4ys_cl05e_y0ur_fil3s}
 
 PClub{idk_how_this_got_typed}
 
-Note: I had documented my journey of finding flags on a Google Document(https://docs.google.com/document/d/108lmb-T1Cc5iEsIdvVQ815flneKoY7CVXKnBNbgC2A4/), which would be more readable than this readme file I guess. However, as per the deliverables, I have pasted the contents of the document here.
+
+
+
+Note for Github: I had documented my journey of finding flags on a Google Document(https://docs.google.com/document/d/108lmb-T1Cc5iEsIdvVQ815flneKoY7CVXKnBNbgC2A4/), which would be more readable than this readme file I guess. However, as per the deliverables, I have pasted the contents of the document here.
+
 
 
 
 From Blog 2:
+
+#FLAG 1
 
 The blog contains a Grafana environment hosted on 13.126.50.182:3000
 
@@ -74,7 +76,7 @@ for plugin in "${PLUGINS[@]}"; do
       exit 0
     fi
   done
-done`
+done
 
 echo
 echo "[-] No flag found with current plugins and paths."
@@ -102,6 +104,7 @@ Typing this on the terminal gave me the following message, which also includes t
 PClub{Easy LFI}, now onto the next one! Next challenge - 13.235.21.137:4657 and 13.235.21.137:4729
 
 
+#FLAG 2
 
 Now I tried opening both these links but they didn’t open in the browser. Hence I ran curl commands to open them on terminal..
 I got:
@@ -182,6 +185,8 @@ $ ./file_chal  # Run the binary to spawn a shell
 cat <&3      # Read from the inherited file descriptor
 sh: 0: can't access tty; job control turned off
 $ PClub{4lw4ys_cl05e_y0ur_fil3s}
+
+# FLAG 3
 
 Now I did the same to open the second link on terminal:
 
@@ -2002,6 +2007,10 @@ Flag not found in any swap files.
 From Blog1:
 
 
+
+# FLAG 4
+
+
 Searched for Kalpit Lal Rama on Google
 
 Found a Linkedin profile
@@ -2141,6 +2150,9 @@ Nice job though! Here's the next challenge : https://pastebin.com/v9vuHs52
 The 29th September edit also gives a flag:
 TechSprint{I_think_we_have_a_osint_god_among_us!}
 However this doesn’t start with ‘PClub{‘ so it is a flag of some other CTF.
+#FLAG 5
+
+
 Now opening the given pastebin link,
 I got the following:
 Challenge 1 : Connect to 3.109.250.1 at port 5000
@@ -2619,6 +2631,7 @@ Now GPT suggested me the following:
 Coppersmith’s Attack (for small roots modulo n)
 (SageMath has built-in tools or libraries like ROCA or Rational Reconstruction that can help here.)
 Use Håstad’s Broadcast Attack
+
 I tried the first on https://sagecell.sagemath.org/ 
 
 
@@ -2655,5 +2668,88 @@ else:
 But got no roots.
 
 
+For Hastad method, it is basically solving by Chinese remainder theorem
 
 
+I tried factorising n using https://www.alpertron.com.ar/ECM.HTM but even after running for a long time, it couldn’t factor it.
+
+
+I found a link which lists all the attacks I can try:
+https://www.utc.edu/sites/default/files/2021-04/course-paper-5600-rsa.pdf
+
+
+My problem is of low public exponent.
+
+
+I tried Coppersmith using Perplexity and sagemath, but didn’t work.:
+
+
+
+
+n = 14396996159484935402263047209515591837894561722637754977347763291309469526016654395830492184143403002427443166570907471043582253894111865750271913633299048451358715658977476227178780148897263675642352138870807635707152157265878868071156485130358955177740064371871540690429629376357175922832896148083749207758979817755416407370097422607094461094843394269367378266138773192483991105300836363325123386715060503986689730021660330714714902229408932007554015453954776067969393448087791858215409782993160037667631348054614116602892854843905177862655435919982681383061296616680660139810652785553456917773787057033714145613047
+c = 13437526472436443794216183194447347160957723113505232847991283306113138220233611623514675486755471564675075931597194667076873792845811434558940860307689650172282955143274192306001577300853176680328261740226949547911987455543505939653845201712932059038893061028957575004645827583641813162371882629998149720108335069599541193348406800042424174365046762703858102407067704226218281373815251886835573326793237064400000951951470185193154003949005186087250209039284390634476270161882475661058798807584719275674224312119320148958373939867137261912594006570054381723440237211976383733448993072751117624257934664093874010364945  # Replace with your ciphertext
+
+
+# Known prefix of the flag (e.g., "PClub{")
+known_part = int.from_bytes(b'PClub{', byteorder='big')
+
+
+# SHA256 hash of empty string (precomputed)
+padding = 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+
+# Estimated flag length (adjust based on CTF hints)
+flag_length = 30  # e.g., 30 characters
+unknown_bytes = flag_length - len(b'PClub{')  # 24 bytes
+shift = unknown_bytes * 8  # Bits to shift for the unknown part
+
+
+# Coppersmith's Attack
+P.<x> = PolynomialRing(Zmod(n), implementation='NTL')
+f = (known_part * (2^shift) + x + padding)^3 - c
+f = f.monic()
+
+
+# Find small roots (adjust beta and epsilon if needed)
+roots = f.small_roots(X=2^shift, beta=0.3, epsilon=0.05)
+if roots:
+    x = roots[0]
+    flag_int = known_part * (2^shift) + x + padding
+    flag = flag_int.to_bytes((flag_int.bit_length() + 7) // 8, byteorder='big').decode(errors='ignore')
+    print("Flag:", flag)
+else:
+    print("No roots found. Adjust flag_length or parameters.")
+
+
+Next method is trying c+kn to be a cube root.:
+n = 14396996159484935402263047209515591837894561722637754977347763291309469526016654395830492184143403002427443166570907471043582253894111865750271913633299048451358715658977476227178780148897263675642352138870807635707152157265878868071156485130358955177740064371871540690429629376357175922832896148083749207758979817755416407370097422607094461094843394269367378266138773192483991105300836363325123386715060503986689730021660330714714902229408932007554015453954776067969393448087791858215409782993160037667631348054614116602892854843905177862655435919982681383061296616680660139810652785553456917773787057033714145613047
+padding = 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  # SHA256 of ""
+
+
+for k in range(0, 10):  # Try k=0,1,...,9
+    candidate = c + k * n
+    root, is_cube = candidate.nth_root(3, truncate_mode=True)
+    if is_cube:
+        m = root - padding
+        flag = m.to_bytes((m.bit_length() + 7) // 8, byteorder='big').decode(errors='ignore')
+        if "PClub{" in flag:
+            print(f"Flag found with k={k}: {flag}")
+            break
+else:
+    print("Flag not found. Increase the range of k.")
+
+
+
+
+Which also didn’t work.
+
+
+Next I tried  Franklin-Reiter Related Message Attack which also didn’t work:
+#FLAG 6
+
+
+Trying to open the challenge file from https://cybersharing.net/s/327d3991cd34b223
+I typed cat and got a lot of non printable characters.
+Next I tried string challenge | less and xxd challenge | less
+Both still gave too much text to work with.
+I tried binwalk challenge but it crashed.
