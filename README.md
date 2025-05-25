@@ -2773,6 +2773,38 @@ if h.degree() == 1:
 else:
     print("Attack failed. Try different paddings.")
 
+I found a github repo https://github.com/jvdsn/crypto-attacks in which a lot of RSA attacks were listed:
+
+
+ Bleichenbacher's attack 23
+ Bleichenbacher's signature forgery attack
+ Boneh-Durfee attack 24
+ Cherkaoui-Semmouni's attack 25
+ Common modulus attack
+ CRT fault attack
+ d fault attack
+ Desmedt-Odlyzko attack (selective forgery) 26
+ Extended Wiener's attack 27
+ Hastad's broadcast attack
+ Known CRT exponents attack 28
+ Partial known CRT exponents attack 29
+ Known private exponent attack
+ Low public exponent attack
+ LSB oracle (parity oracle) attack
+ Manger's attack 30
+ Nitaj's CRT-RSA attack 31
+ Non coprime public exponent attack 32
+ Partial key exposure 33 34 35
+ Related message attack
+ Stereotyped message attack
+ Wiener's attack
+ Wiener's attack for Common Prime RSA 36
+ Wiener's attack (Heuristic lattice variant) 37 38 39
+I prompted Perplexity to check which of these is applicable to this scenario.
+
+
+It again suggested only 3-the same ones I have already tried.
+
 
 # FLAG 6
 
